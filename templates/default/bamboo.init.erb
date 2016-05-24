@@ -15,10 +15,10 @@
 ### END INIT INFO
 
 # Source function library.
-<% case node[:platform_family] -%>
-<% when 'rhel' -%>
+# Include init.d/functions for rhel family when version is less than 7 (I.e Centos 6)
+<% if node[:platform_family] == 'rhel' && node['platform_version'] < '7' then -%>
 . /etc/rc.d/init.d/functions
-<% else -%>
+<% elsif node[:platform_family] != 'rhel' -%>
 . /lib/lsb/init-functions
 <% end -%>
 
@@ -75,5 +75,5 @@ case "$1" in
     RETVAL=2
     ;;
 esac
- 
+
 exit $RETVAL
